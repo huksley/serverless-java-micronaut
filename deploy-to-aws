@@ -1,0 +1,8 @@
+#!/bin/bash
+./gradlew clean compileJava assemble build
+
+aws cloudformation package --template-file sam-template.yaml --s3-bucket sam-test-deploy-vi6vah6oom --s3-prefix micronaut --output-template-file sam-package.yaml
+
+aws cloudformation deploy --template-file sam-package.yaml --stack-name ServerlessMicronautApi --capabilities CAPABILITY_IAM
+
+aws cloudformation describe-stacks --stack-name ServerlessMicronautApi

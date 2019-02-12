@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless Micronaut API - vies-vat-validator
+Globals:
+  Api:
+    EndpointConfiguration: REGIONAL
+
+Parameters:
+  Stage:
+    Type: String
+    Default: dev
+
+Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: 
+        Ref: Stage
+      Variables:
+        Stage:
+          Ref: Stage
+  MyServiceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: example.micronaut.StreamLambdaHandler::handleRequest
+      Runtime: java8
+      CodeUri: "build/libs/serverless-java-micronaut-0.1-all.jar"
+      MemorySize: 256
+      Policies: AWSLambdaBasicExecutionRole
+      Timeout: 30
+      Environment: 
+        Variables:
+          # Specify here variables for deployment,
+          # override local using sam-local-env.json
+          SOME_VAR_HERE: some-val
+      Events:
+        ProxyResource:
+          Type: Api
+          Properties:
+            RestApiId: 
+              Ref: ApiGatewayApi
+            Path: /{proxy+}
+            Method: Any
+        CheckWebsiteScheduledEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+
+Outputs:
+  MyMicronautApi:
+    Description: URL for application
+    Value: !Sub 'https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/dev/invoice/vat'
+    Export:
+      Name: MyMicronautApi
