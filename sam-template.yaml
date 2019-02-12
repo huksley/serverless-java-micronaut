@@ -25,7 +25,7 @@ Resources:
       Handler: example.micronaut.StreamLambdaHandler::handleRequest
       Runtime: java8
       CodeUri: "build/libs/serverless-java-micronaut-0.1-all.jar"
-      MemorySize: 256
+      MemorySize: 2048
       Policies: AWSLambdaBasicExecutionRole
       Timeout: 30
       Environment: 
