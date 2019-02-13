@@ -1,11 +1,12 @@
 #!/bin/bash
 set -e
 
-./gradlew clean compileJava assemble build
-
-docker build -t graalvm-builder .
-
-docker run --rm --entrypoint cat graalvm-builder /app/graal-compiled.zip > graal-compiled.zip
+SKIP_BUILD=${SKIP_BUILD:=0}
+if [ "${SKIP_BUILD}" != "1" ]; then 
+    ./gradlew clean compileJava assemble build
+    docker build -t graalvm-builder .
+    docker run --rm --entrypoint cat graalvm-builder /app/graal-compiled.zip > graal-compiled.zip
+fi
 
 zip -vT graal-compiled.zip
 

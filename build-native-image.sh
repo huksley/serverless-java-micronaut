@@ -1,21 +1,20 @@
 #!/bin/bash
 set -e
 JAR=${JAR:="build/libs/serverless-java-micronaut-0.1-all.jar"}
-#./gradlew clean compileJava assemble build
 $GRAALVM_HOME/bin/java -cp $JAR io.micronaut.graal.reflect.GraalClassLoadingAnalyzer
-MAINCLASS=io.micronaut.function.aws.runtime.MicronautLambdaRuntime
-BINARY=server
+MAINCLASS=${MAINCLASS:=io.micronaut.function.aws.runtime.MicronautLambdaRuntime}
+BINARY=${OUTPUT_BINARY:=server}
 DELAYCLASSES=`cat build-native-delay-classes | tr -t '\\n' ',' | sed -re "s/,$//g"`
 REFLECTFILES=`ls -1 src/main/resources/*reflect*.json | tr -t '\n' ',' | sed -re "s/,$//g"`
 echo Delayed classes: ${DELAYCLASSES}
 echo Reflection configuration files: ${REFLECTFILES}
 $GRAALVM_HOME/bin/native-image --no-server \
-             --class-path $JAR \
+             --class-path ${JAR} \
              -H:ReflectionConfigurationFiles=build/reflect.json,${REFLECTFILES} \
              -H:EnableURLProtocols=http,https \
              -H:IncludeResources="logback.xml|application.yml|META-INF/services/*.*" \
-             -H:Name=$BINARY \
-             -H:Class=$MAINCLASS \
+             -H:Name=${BINARY} \
+             -H:Class=${MAINCLASS} \
              -H:+ReportUnsupportedElementsAtRuntime \
              -H:-AllowVMInspection \
              -H:-UseServiceLoaderFeature \

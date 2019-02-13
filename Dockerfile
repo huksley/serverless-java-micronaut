@@ -21,9 +21,10 @@ COPY ./build-native* /app/
 WORKDIR /app
 ENV JAR=server.jar
 RUN /app/build-native-image.sh
+RUN cp $GRAALVM_HOME/jre/lib/amd64/libsunec* /app/
 RUN chmod 755 /app/bootstrap
 RUN chmod 755 /app/server
-RUN zip -j graal-compiled.zip bootstrap server
+RUN zip -j graal-compiled.zip bootstrap server libsunec*
 
 ENTRYPOINT ["/bin/cat"]
 

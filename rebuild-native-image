@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 ./gradlew clean compileJava assemble build
 

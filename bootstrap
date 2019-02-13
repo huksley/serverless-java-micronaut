@@ -1,3 +1,4 @@
 #!/bin/sh
+# Custom runtime entrypoint - https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html
 set -euo pipefail
 ./server
