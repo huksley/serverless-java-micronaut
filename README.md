@@ -1,16 +1,16 @@
-# Micronaut AWS Lambda Vat checker
+# Micronaut AWS Lambda VAT number checker
 
-Performs calls to European Union [SOAP APIs](http://ec.europa.eu/taxation_customs/vies/services/checkVatService?WSDL) to check VAT validity. Deployed as AWS Lambda using [custom/provided runtime](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html) with GraalVM [AOT compilation](https://www.graalvm.org/docs/reference-manual/aot-compilation/). Also works locally with SAM.
+Performs calls to European Union [SOAP APIs](http://ec.europa.eu/taxation_customs/vies/services/checkVatService?WSDL) to check VAT number validity. Deployed as AWS Lambda using [custom/provided runtime](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html) with GraalVM [AOT compilation](https://www.graalvm.org/docs/reference-manual/aot-compilation/). Also works locally with SAM.
 
 ## Building
 
-Local Java build is gone using `./gradlew clean compileJava assemble build`
+Local Java build can be done using `./gradlew clean compileJava assemble build`
 
 To generate native image use `./build-native-image.sh` to do it locally or `./rebuild-native-image` to do it in AWS Linux Docker container.
 
 ## Running locally
 
-Run as micronaut app locally using `java -DMICRONAUT_SERVER_PORT=3000 -jar build/libs/serverless-java-micronaut-0.1-all.jar`
+Run as [Micronaut](http://micronaut.io) app locally using `java -DMICRONAUT_SERVER_PORT=3000 -jar build/libs/serverless-java-micronaut-0.1-all.jar`
 
 To run using [SAM](https://github.com/awslabs/aws-sam-cli) execute `./sam-local` to run Java version and `./sam-local-graal` to run Graal version.
 
