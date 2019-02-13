@@ -14,7 +14,7 @@ curl -X "POST" "http://localhost:3000/vat/validate" \
   "vatNumber": "16235074"
 }'
 
-> echo true
+> echo {"valid":true,"memberStateCode":"FI","vatNumber":"16235074"}
 ```
 
 Checks VAT number, different syntax, this VAT are invalid
@@ -27,7 +27,7 @@ curl -X "POST" "http://localhost:3000/vat/validate" \
   "vatNumber": "FI16235075"
 }'
 
-echo false
+> echo {"valid":false,"memberStateCode":"FI","vatNumber":"16235075"}
 ```
 
 Checks VAT number also specifying requester data. Actullly calls checkVatApprox from [SOAP](http://ec.europa.eu/taxation_customs/vies/services/checkVatService?WSDL) and can query also address and company name.
@@ -41,5 +41,5 @@ curl -X "POST" "http://localhost:3000/vat/validateApprox" \
   "requesterMemberStateCode": "FI", 
   "requesterVatNumber": "16235074"
 }'
-echo true
+> echo {"valid":true,"memberStateCode":"FI","vatNumber":"16235074"}
 ```
