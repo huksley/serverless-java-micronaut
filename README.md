@@ -12,3 +12,10 @@ https://github.com/cstancu/netty-native-demo/
 
 
 MICRONAUT_SERVER_PORT=8086
+
+Example validate vat:
+
+```bash
+
+ab -n 50 -c 5 -T application/json -p example-validate-vat.json -m POST https://deadbeef.execute-api.eu-west-1.amazonaws.com/dev/vat/validate 
+```

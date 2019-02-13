@@ -48,7 +48,7 @@ dependencies {
         // Afterburner causes exceptions in GraalVM see https://gist.github.com/huksley/31e7f251f9c3f7d3a9d8aeec2ec9d284
         exclude group: "com.fasterxml.jackson.module", module: "jackson-module-afterburner"
     }
-    compile("io.micronaut.aws:micronaut-function-aws-custom-runtime") {
+    compile("io.micronaut.aws:micronaut-function-aws-custom-runtime:${micronautVersion}") {
         exclude group: "com.fasterxml.jackson.module", module: "jackson-module-afterburner"
     }
     runtimeOnly "io.micronaut:micronaut-graal"
