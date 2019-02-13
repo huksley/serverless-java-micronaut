@@ -1,7 +1,10 @@
 # Example API requests
 
+Example curl requests to check APIs working.
+
 ## Running locally
 
+```bash
 curl -X "POST" "http://localhost:3000/vat/validate" \
      -H 'Content-Type: application/json' \
      -d $'{
@@ -9,8 +12,10 @@ curl -X "POST" "http://localhost:3000/vat/validate" \
   "vatNumber": "16235074"
 }'
 
-=> true
+> echo true
+```
 
+```bash
 curl -X "POST" "http://localhost:3000/vat/validate" \
      -H 'Content-Type: application/json' \
      -d $'{
@@ -18,8 +23,10 @@ curl -X "POST" "http://localhost:3000/vat/validate" \
   "vatNumber": "FI16235075"
 }'
 
-=> false
+echo false
+```
 
+```bash
 curl -X "POST" "http://localhost:3000/vat/validateApprox" \
      -H 'Content-Type: application/json' \
      -d $'{
@@ -28,12 +35,5 @@ curl -X "POST" "http://localhost:3000/vat/validateApprox" \
   "requesterMemberStateCode": "FI", 
   "requesterVatNumber": "16235074"
 }'
-
-=> true
-
-curl -X "POST" "https://deafbeef.execute-api.eu-west-1.amazonaws.com/dev/vat/validate" \
-     -H 'Content-Type: application/json' \
-     -d $'{
-  "memberStateCode": "es",
-  "vatNumber": "B86412491"
-}'
+echo true
+```
