@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sam local start-api --skip-pull-image -s public -t sam-template-graal.yaml -p 3000 -n sam-local-env.json
+
