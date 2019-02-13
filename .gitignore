@@ -6,3 +6,10 @@ sam-package.yaml
 .gradle
 .settings
 .vscode
+server
+sam-package-graal.yaml
+c10*
+c1*
+1
+2
+graal-compiled.zip

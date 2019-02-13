@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless Micronaut API - vies-vat-validator
+Globals:
+  Api:
+    EndpointConfiguration: REGIONAL
+
+Parameters:
+  Stage:
+    Type: String
+    Default: dev
+
+Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: 
+        Ref: Stage
+      Variables:
+        Stage:
+          Ref: Stage
+  MyServiceFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: this.does.not.needed.for.graal
+      Runtime: provided
+      CodeUri: graal-compiled.zip
+      MemorySize: 128
+      Policies: AWSLambdaBasicExecutionRole
+      Timeout: 30
+      Environment: 
+        Variables:
+          # Specify here variables for deployment,
+          # override local using sam-local-env.json
+          SOME_VAR_HERE: some-val
+      Events:
+        ProxyResource:
+          Type: Api
+          Properties:
+            RestApiId: 
+              Ref: ApiGatewayApi
+            Path: /{proxy+}
+            Method: Any
+        CheckWebsiteScheduledEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minutes)
+
+Outputs:
+  MyMicronautGraalApi:
+    Description: URL for application
+    Value: !Sub 'https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/dev/vat'
+    Export:
+      Name: MyMicronautGralApi

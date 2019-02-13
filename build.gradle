@@ -43,8 +43,10 @@ dependencies {
     compile "io.micronaut:micronaut-inject"
     compile "io.micronaut:micronaut-runtime"
     compileOnly "io.micronaut:micronaut-inject-java"
-    compile "io.micronaut.aws:micronaut-function-aws-api-proxy:1.1.0.M2"
-
+    compile "io.micronaut.aws:micronaut-function-aws-api-proxy:1.1.0.M1"
+    compile("io.micronaut.aws:micronaut-function-aws-custom-runtime") {
+        exclude group: "com.fasterxml.jackson.module", module: "jackson-module-afterburner"
+    }
     runtimeOnly "io.micronaut:micronaut-graal"
     runtime "ch.qos.logback:logback-classic:1.2.3"
     testCompile "io.micronaut:micronaut-inject-java"

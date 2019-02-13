@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+docker run --rm --entrypoint cat graalvm-builder /app/graal-compiled.zip > graal-compiled.zip
+
+zip -vT graal-compiled.zip
+
+aws cloudformation package --template-file sam-template-graal.yaml --s3-bucket sam-test-deploy-vi6vah6oom --s3-prefix micronaut-graal --output-template-file sam-package-graal.yaml
+
+aws cloudformation deploy --template-file sam-package-graal.yaml --stack-name ServerlessMicronautGraalApi --capabilities CAPABILITY_IAM
+
+aws cloudformation describe-stacks --stack-name ServerlessMicronautGraalApi

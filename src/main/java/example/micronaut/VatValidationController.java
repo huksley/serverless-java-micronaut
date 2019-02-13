@@ -20,7 +20,7 @@ public class VatValidationController {
 
     @Get("/ping")
     public String index() {
-        return "{\"pong\":true}";
+        return "{\"pong\":true, \"graal\": true}";
     }
 
     @Post("/validate")
