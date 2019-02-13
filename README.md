@@ -6,3 +6,7 @@ https://github.com/micronaut-guides/micronaut-function-aws-lambda/tree/master/co
 https://github.com/micronaut-projects/micronaut-aws/tree/master/examples/api-proxy-example
 
 https://github.com/micronaut-projects/micronaut-core/issues/540
+
+Added Netty configuration and substitutions from 
+https://github.com/cstancu/netty-native-demo/
+

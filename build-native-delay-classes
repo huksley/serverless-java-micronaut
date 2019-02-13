@@ -6,4 +6,4 @@ io.micronaut.function.aws.proxy.MicronautLambdaContainerHandler
 com.amazonaws.serverless.proxy.internal.LambdaContainerHandler
 io.netty.handler.ssl.JdkNpnApplicationProtocolNegotiator
 io.netty.handler.ssl.ReferenceCountedOpenSslEngine
-org.springframework.core.io.VfsUtils
+
