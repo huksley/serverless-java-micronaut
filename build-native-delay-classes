@@ -1,0 +1,9 @@
+io.netty.handler.codec.http.HttpObjectEncoder
+io.netty.handler.codec.http.websocketx.WebSocket00FrameEncoder
+io.netty.handler.ssl.util.ThreadLocalInsecureRandom
+com.sun.jndi.dns.DnsClient
+io.micronaut.function.aws.proxy.MicronautLambdaContainerHandler
+com.amazonaws.serverless.proxy.internal.LambdaContainerHandler
+io.netty.handler.ssl.JdkNpnApplicationProtocolNegotiator
+io.netty.handler.ssl.ReferenceCountedOpenSslEngine
+org.springframework.core.io.VfsUtils

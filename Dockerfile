@@ -16,8 +16,8 @@ RUN rm -rf /tmp/*
 RUN mkdir -p /app && mkdir -p /app/build
 ADD ./bootstrap /app/bootstrap
 ADD ./build/libs/serverless-java-micronaut-0.1-all.jar /app/server.jar
-ADD src/main/resources/micronaut-aws-reflect.json /app/src/main/resources/micronaut-aws-reflect.json
-COPY ./build-native-image.sh /app
+ADD src/main/resources/*reflect*.json /app/src/main/resources/
+COPY ./build-native* /app/
 WORKDIR /app
 ENV JAR=server.jar
 RUN /app/build-native-image.sh
