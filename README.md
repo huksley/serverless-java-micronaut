@@ -10,3 +10,5 @@ https://github.com/micronaut-projects/micronaut-core/issues/540
 Added Netty configuration and substitutions from 
 https://github.com/cstancu/netty-native-demo/
 
+
+MICRONAUT_SERVER_PORT=8086

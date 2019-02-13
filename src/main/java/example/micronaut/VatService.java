@@ -8,8 +8,12 @@ import io.reactivex.Single;
 
 import javax.inject.Singleton;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Singleton // <1>
 public class VatService {
+    private static final Logger LOG = LoggerFactory.getLogger(VatValidationController.class);
     private static final String SERVER = "http://ec.europa.eu";
     private static final String PATH = "/taxation_customs/vies/services/checkVatService";
     private static final String VALID_XML_OPEN_TAG = "<valid>";
@@ -22,21 +26,71 @@ public class VatService {
     }
 
     public Single<Boolean> validateVat(String memberStateCode, String vatNumber) {
+        if (vatNumber.startsWith(memberStateCode)) {
+            vatNumber = vatNumber.substring(memberStateCode.length());
+        }
         String soapEnvelope = soapEnvelope(memberStateCode, vatNumber);
-        HttpRequest request = HttpRequest.POST(SERVER+PATH, soapEnvelope)  // <3>
+        HttpRequest<String> request = HttpRequest.POST(SERVER+PATH, soapEnvelope)  // <3>
                 .contentType("application/soap+xml");
+        LOG.info("Sending request {} with SOAP {}", request, soapEnvelope);
+        Flowable<String> response = client.retrieve(request, String.class);
+        return response.firstOrError().map(this::parseResponseToBoolean);
+    }
 
+    public Single<Boolean> validateVatApprox(String memberStateCode, String vatNumber, String requesterMemberStateCode, String requesterVatNumber) {
+        if (vatNumber == null) {
+            throw new NullPointerException("vatNumber");
+        }
+        if (vatNumber.startsWith(memberStateCode)) {
+            vatNumber = vatNumber.substring(memberStateCode.length());
+        }
+        if (requesterVatNumber == null) {
+            throw new NullPointerException("requesterVatNumber");
+        }
+        if (requesterVatNumber.startsWith(requesterMemberStateCode)) {
+            requesterVatNumber = requesterVatNumber.substring(requesterMemberStateCode.length());
+        }
+        String soapEnvelope = soapEnvelopeApprox(memberStateCode, vatNumber, memberStateCode, vatNumber);
+        HttpRequest<String> request = HttpRequest.POST(SERVER+PATH, soapEnvelope)
+                .contentType("application/soap+xml");
+        LOG.info("Sending request {} with SOAP {}", request, soapEnvelope);
         Flowable<String> response = client.retrieve(request, String.class);
         return response.firstOrError().map(this::parseResponseToBoolean);
     }
 
     private Boolean parseResponseToBoolean(String response) {
+        LOG.info("Got response {}", response);
         if (!response.contains(VALID_XML_OPEN_TAG) || !response.contains(VALID_XML_CLOSE_TAG)) {
             return false;
         }
         int beginIndex = response.indexOf(VALID_XML_OPEN_TAG) + VALID_XML_OPEN_TAG.length();
         String validResponse = response.substring(beginIndex, response.indexOf(VALID_XML_CLOSE_TAG));
         return Boolean.valueOf(validResponse);
+    }
+
+    private String soapEnvelopeApprox(String memberStateCode, String vatNumber, String requesterCountryCode, String requesterVatNumber) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        sb.append("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+        sb.append("<soapenv:Header/>");
+        sb.append("<soapenv:Body xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">");
+        sb.append("<urn:checkVatApprox xmlns:urn=\"urn:ec.europa.eu:taxud:vies:services:checkVat:types\">");
+        sb.append("<urn:countryCode>");
+        sb.append(memberStateCode);
+        sb.append("</urn:countryCode>");
+        sb.append("<urn:vatNumber>");
+        sb.append(vatNumber);
+        sb.append("</urn:vatNumber>");
+        sb.append("<urn:requesterCountryCode>");
+        sb.append(requesterCountryCode);
+        sb.append("</urn:requesterCountryCode>");
+        sb.append("<urn:requesterVatNumber>");
+        sb.append(requesterVatNumber);
+        sb.append("</urn:requesterVatNumber>");
+        sb.append("</urn:checkVatApprox>");
+        sb.append("</soapenv:Body>");
+        sb.append("</soapenv:Envelope>");
+        return sb.toString();
     }
 
     private String soapEnvelope(String memberStateCode, String vatNumber) {

@@ -32,7 +32,7 @@ Resources:
         Variables:
           # Specify here variables for deployment,
           # override local using sam-local-env.json
-          SOME_VAR_HERE: some-val
+          SERVER_OPTS: "-Dlogback.configurationFile=logback-debug.xml"
       Events:
         ProxyResource:
           Type: Api

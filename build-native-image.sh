@@ -12,7 +12,7 @@ $GRAALVM_HOME/bin/native-image --no-server \
              --class-path ${JAR} \
              -H:ReflectionConfigurationFiles=build/reflect.json,${REFLECTFILES} \
              -H:EnableURLProtocols=http,https \
-             -H:IncludeResources="logback.xml|application.yml|META-INF/services/*.*" \
+             -H:IncludeResources="logback.xml|logback-debug.xml|application.yml|META-INF/services/*.*" \
              -H:Name=${BINARY} \
              -H:Class=${MAINCLASS} \
              -H:+ReportUnsupportedElementsAtRuntime \

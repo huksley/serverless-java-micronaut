@@ -4,5 +4,11 @@
     "methods": [
       { "name": "<init>", "parameterTypes": [] }
     ]
+  },
+  {
+    "name": "java.util.LinkedHashMap",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
   }
 ]

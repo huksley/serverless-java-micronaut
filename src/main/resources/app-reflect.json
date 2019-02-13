@@ -1,0 +1,18 @@
+[
+  {
+    "name": "example.micronaut.VatValidationRequest",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "java.util.ArrayList",
+    "allPublicMethods": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "io.micronaut.http.client.ServiceHttpClientCondition",
+    "allPublicMethods": true,
+    "allDeclaredConstructors": true
+  }
+]

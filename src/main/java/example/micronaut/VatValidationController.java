@@ -24,7 +24,7 @@ public class VatValidationController {
     }
 
     @Post("/validate")
-    public VatValidation apply(@Body String s) throws IOException {
+    public VatValidation validate(@Body String s) throws IOException {
         ObjectMapper om = new ObjectMapper();
         VatValidationRequest request = om.readValue(s, VatValidationRequest.class);
         final String memberStateCode = request.getMemberStateCode();
@@ -34,5 +34,20 @@ public class VatValidationController {
         }
         return vatService.validateVat(memberStateCode, vatNumber)
                 .map(valid -> new VatValidation(memberStateCode, vatNumber, valid)).blockingGet(); // <5>
+    }
+
+    @Post("/validateApprox")
+    public VatValidation validateApprox(@Body String s) throws IOException {
+        ObjectMapper om = new ObjectMapper();
+        VatValidationRequest request = om.readValue(s, VatValidationRequest.class);
+        final String memberStateCode = request.getMemberStateCode();
+        final String vatNumber = request.getVatNumber();
+        final String requesterMemberStateCode = request.getRequesterVatNumber();
+        final String requesterVatNumber = request.getRequesterVatNumber();
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("validate country: {} vat number: {}, requester country {}, vat {}", memberStateCode, vatNumber, requesterMemberStateCode, requesterVatNumber);
+        }
+        return vatService.validateVatApprox(memberStateCode, vatNumber, requesterMemberStateCode, requesterVatNumber)
+                .map(valid -> new VatValidation(memberStateCode, vatNumber, valid)).blockingGet(); 
     }
 }

@@ -1,4 +1,5 @@
 {
   "MyServiceFunction":{
+    "SERVER_OPTS": ""
   }
 }

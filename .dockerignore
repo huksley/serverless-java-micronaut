@@ -1,0 +1,7 @@
+build
+!build/libs
+bin
+.vscode
+.gradle
+gradle
+gradlew*
