@@ -31,9 +31,9 @@ curl -X "POST" "http://localhost:3000/vat/validateApprox" \
 
 => true
 
-curl -X "POST" "https://deafbeef.execute-api.eu-west-1.amazonaws.com/dev/vat/validate" \
+curl -X "POST" "https://n886cydps5.execute-api.eu-west-1.amazonaws.com/dev/vat/validate" \
      -H 'Content-Type: application/json' \
      -d $'{
-  "memberStateCode": "es",
-  "vatNumber": "B86412491"
+  "memberStateCode": "FI",
+  "vatNumber": "16235074"
 }'
