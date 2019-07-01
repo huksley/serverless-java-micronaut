@@ -5,7 +5,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.4"
+        classpath "com.github.jengelman.gradle.plugins:shadow:5.1.0"
         classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
         classpath "de.sebastianboegl.gradle.plugins:shadow-log4j-transformer:2.1.1"
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.15"
