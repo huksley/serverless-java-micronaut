@@ -26,7 +26,10 @@ Resources:
       Runtime: java8
       CodeUri: "build/libs/serverless-java-micronaut-0.1-all.jar"
       MemorySize: 2048
-      Policies: AWSLambdaBasicExecutionRole
+      Policies: 
+        - AWSLambdaBasicExecutionRole
+        - "arn:aws:iam:::policy/DynamoDB-mntodo-full-access"
+        - AmazonDynamoDBFullAccess
       Timeout: 30
       Environment: 
         Variables:
@@ -49,6 +52,6 @@ Resources:
 Outputs:
   MyMicronautApi:
     Description: URL for application
-    Value: !Sub 'https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/dev/invoice/vat'
+    Value: !Sub 'https://${ApiGatewayApi}.execute-api.${AWS::Region}.amazonaws.com/dev/vat/ping'
     Export:
       Name: MyMicronautApi

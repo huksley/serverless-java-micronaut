@@ -1,26 +1,50 @@
 package example.micronaut;
 
-import java.io.IOException;
-
+import com.agorapulse.micronaut.aws.dynamodb.DynamoDBService;
+import com.agorapulse.micronaut.aws.dynamodb.DynamoDBServiceProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import io.micronaut.context.BeanContext;
+import io.micronaut.http.annotation.Body;
+import io.micronaut.http.annotation.Controller;
+import io.micronaut.http.annotation.Get;
+import io.micronaut.http.annotation.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import io.micronaut.http.annotation.*;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.util.UUID;
 
 @Controller("/vat")
 public class VatValidationController {
     private static final Logger LOG = LoggerFactory.getLogger(VatValidationController.class); // <3>
 
     private final VatService vatService;
+    private final BeanContext context;
 
-    public VatValidationController(VatService vatService) { // <4>
+    public VatValidationController(VatService vatService, BeanContext context) { // <4>
         this.vatService = vatService;
+        this.context = context;
     }
 
+
+
     @Get("/ping")
-    public String index() {
-        return "{\"pong\":true, \"graal\": true}";
+    public String index() throws IOException {
+
+        DynamoDBServiceProvider provider = context.getBean(DynamoDBServiceProvider.class);
+        DynamoDBService<Todo> s = provider.findOrCreate(Todo.class);
+
+        s.createTable(1L, 1L);
+        Todo todo = s.getNewInstance();
+        todo.setId(UUID.randomUUID().toString());
+        todo.setText("Hello from micronaut " + System.currentTimeMillis());
+        todo.setDone(false);
+        s.save(todo);
+
+        return "{\"pong\":true, \"graalvm\": true, \"todos\": \"" + s.get(todo.getId()).getText() + "\"}";
     }
 
     @Post("/validate")

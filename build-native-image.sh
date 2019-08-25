@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 JAR=${JAR:="build/libs/serverless-java-micronaut-0.1-all.jar"}
+echo $JAR
 $GRAALVM_HOME/bin/java -cp $JAR io.micronaut.graal.reflect.GraalClassLoadingAnalyzer
 MAINCLASS=${MAINCLASS:=io.micronaut.function.aws.runtime.MicronautLambdaRuntime}
 BINARY=${OUTPUT_BINARY:=server}

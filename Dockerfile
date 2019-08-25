@@ -19,8 +19,7 @@ ADD ./build/libs/serverless-java-micronaut-0.1-all.jar /app/server.jar
 ADD src/main/resources/*reflect*.json /app/src/main/resources/
 COPY ./build-native* /app/
 WORKDIR /app
-ENV JAR=server.jar
-RUN /app/build-native-image.sh
+RUN JAR=/app/server.jar /app/build-native-image.sh
 RUN cp $GRAALVM_HOME/jre/lib/amd64/libsunec* /app/
 RUN chmod 755 /app/bootstrap
 RUN chmod 755 /app/server

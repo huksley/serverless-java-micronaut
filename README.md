@@ -8,6 +8,11 @@ Local Java build can be done using `./gradlew clean compileJava assemble build`
 
 To generate native image use `./build-native-image.sh` to do it locally or `./rebuild-native-image` to do it in AWS Linux Docker container.
 
+
+https://docs.micronaut.io/latest/guide/index.html
+https://agorapulse.github.io/micronaut-libraries/docs/javadoc/micronaut-aws-sdk/com/agorapulse/micronaut/aws/dynamodb/DynamoDBService.html
+
+
 ## Running locally
 
 Run as [Micronaut](http://micronaut.io) app locally using `java -DMICRONAUT_SERVER_PORT=3000 -jar build/libs/serverless-java-micronaut-0.1-all.jar`
